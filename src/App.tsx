@@ -72,11 +72,11 @@ function App() {
       <div className='pair-container'>
         <button className='person' onClick={() => choosePerson(true)}>
           <h2>{randomPerson1?.name}</h2>
-          <img src={'/images/' + randomPerson1?.image} alt={randomPerson1?.name} />
+          <img src={'./images/' + randomPerson1?.image} alt={randomPerson1?.name} />
         </button>
         <button className='person' onClick={() => choosePerson(false)}>
           <h2>{randomPerson2?.name}</h2>
-          <img src={'/images/' + randomPerson2?.image} alt={randomPerson2?.name} />
+          <img src={'./images/' + randomPerson2?.image} alt={randomPerson2?.name} />
         </button>
       </div>
     </div>
