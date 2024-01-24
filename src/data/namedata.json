@@ -798,5 +798,21 @@
     {
         "name": "Mats L\u00f6fstr\u00f6m",
         "image": "Lofstrom-Mats-web-1345.jpg"
+    },
+    {
+        "name": "Alexander Stubb",
+        "image": "Stubb_Alexander_web_7460.jpg"
+    },
+    {
+        "name": "Olli Rehn",
+        "image": "Olli-Rehn.jpg"
+    },
+    {
+        "name": "Jutta Urpilainen",
+        "image": "Jutta_Urpilainen.jpg"
+    },
+    {
+        "name": "Mika Aaltola",
+        "image": "Mika-Aaltola.jpg"
     }
 ]
