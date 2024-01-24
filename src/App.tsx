@@ -68,6 +68,7 @@ function App() {
     <div className="App">
       <h1>Presidenttikirja</h1>
       <h2>{question}</h2>
+      <h3>Valitse parempi ehdokas tähän kriteeriin</h3>
       <div className='pair-container'>
         <button className='person' onClick={() => choosePerson(true)}>
           <h2>{randomPerson1?.name}</h2>
