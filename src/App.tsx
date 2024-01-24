@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import people from './data/namedata.json';
 import kysymykset from './data/kysymykset.json';
-import { send } from 'process';
 
 interface Person {
   name: string;
@@ -42,7 +41,7 @@ function App() {
 
   const sendToServer = async (data: any) => {
     try {
-      const response = await fetch('https://172.21.96.1:1369/receive-data', {
+      const response = await fetch('https://9dde-193-211-37-15.ngrok-free.app/receive-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
