@@ -7,14 +7,32 @@ interface Person {
   image: string;
 }
 
+type EloType = {
+  [key: string]: {
+    [key: string]: number;
+  };
+};
+
 function App() {
+
+  // Add a new state variable to keep track of expanded boxes
+  const [expandedBoxes, setExpandedBoxes] = useState<Record<string, boolean>>({});
+
+  // Function to toggle a box's expanded state
+  const toggleBox = (box: string) => {
+    setExpandedBoxes(prevState => ({ ...prevState, [box]: !prevState[box] }));
+  };
 
   const [randomPerson1, setRandomPerson1] = useState<Person | null>(null);
   const [randomPerson2, setRandomPerson2] = useState<Person | null>(null);
   const [question, setQuestion] = useState('');
+  const [elo, setElo] = useState<EloType>({ "Question": { "Person One": 6969, "Person Two": 6969 } });
+  const [isMain, setIsMain] = useState(true);
+
 
   useEffect(() => {
     getRandomPerson();
+    sendToServer({ 'winner': 'get-elo-only', 'loser': 'get-elo-only', 'question': 'get-elo-only' });
   }, []);
 
   const getRandomPerson = () => {
@@ -31,14 +49,6 @@ function App() {
     setQuestion(kysymykset[Math.floor(Math.random() * kysymykset.length)]);
   };
 
-  useEffect(() => {
-    if (randomPerson1 && randomPerson2) {
-      // The state has been updated, now you can proceed
-      console.log('Random persons:', randomPerson1, randomPerson2);
-    }
-  }, [randomPerson1, randomPerson2]);
-
-
   const sendToServer = async (data: any) => {
     try {
       const response = await fetch('https://9dde-193-211-37-15.ngrok-free.app/receive-data', {
@@ -49,11 +59,14 @@ function App() {
         body: JSON.stringify(data),
       });
 
-      if (response.ok) {
-        console.log('Data sent successfully!');
-      } else {
+      if (!response.ok) {
         console.error('Failed to send data to the server');
       }
+
+      const json = await response.json();
+      const gotElo = json.elo;
+      setElo(gotElo);
+
     } catch (error) {
       console.error('Error:', error);
     }
@@ -66,19 +79,51 @@ function App() {
 
   return (
     <div className="App">
+      <button onClick={() => setIsMain(!isMain)}>{isMain ? "Stats" : "Takaisin"}</button>
       <h1>Presidenttikirja</h1>
-      <h2>{question}</h2>
-      <h3>Valitse parempi ehdokas tähän kriteeriin</h3>
-      <div className='pair-container'>
-        <button className='person' onClick={() => choosePerson(true)}>
-          <h2>{randomPerson1?.name}</h2>
-          <img src={'./images/' + randomPerson1?.image} alt={randomPerson1?.name} />
-        </button>
-        <button className='person' onClick={() => choosePerson(false)}>
-          <h2>{randomPerson2?.name}</h2>
-          <img src={'./images/' + randomPerson2?.image} alt={randomPerson2?.name} />
-        </button>
-      </div>
+      {isMain &&
+        <>
+          <h2>{question}</h2>
+          <h3>Valitse parempi ehdokas tähän kriteeriin</h3>
+          <div className='pair-container'>
+            <button className='person' onClick={() => choosePerson(true)}>
+              <h2>{randomPerson1?.name}</h2>
+              <img src={'./images/' + randomPerson1?.image} alt={randomPerson1?.name} />
+            </button>
+            <button className='person' onClick={() => choosePerson(false)}>
+              <h2>{randomPerson2?.name}</h2>
+              <img src={'./images/' + randomPerson2?.image} alt={randomPerson2?.name} />
+            </button>
+          </div>
+        </>
+      }
+      {!isMain &&
+        <>
+          <h2>Stats</h2>
+          {Object.keys(elo).map((statQuestion) => (
+            <div className='statlist'>
+              <h1>{(statQuestion === "Kumman nimi on goofympi?") ? "Goofyin nimi" :
+                ((statQuestion === "Kumpi on kaljumpi?") ? "Kaljuin" :
+                  ((statQuestion === "Kumman ilme on enemmän mischievous?") ? "Eniten mischievous naama" :
+                    ((statQuestion === "Kumpi on enemmän nainen?") ? "Eniten nainen" : "Walter White")))}</h1>
+              <ul>
+                {Object.keys(elo[statQuestion]).slice(0, expandedBoxes[statQuestion] ? undefined : 3).map((person, index) => (
+                  <li className='stat-item' key={`${person.replace(' ', '-')}-${index}`}>
+                    <img src={'./images/' + people.find(p => p.name === person)?.image} alt={person} className='stat-image' />
+                    <div style={{ flexGrow: 1, fontSize: 24 }}>{person}: {Math.round(elo[statQuestion][person])}</div>
+                  </li>
+                ))}
+              </ul>
+              {Object.keys(elo[statQuestion]).length > 3 && (
+                <button onClick={() => toggleBox(statQuestion)}>
+                  {expandedBoxes[statQuestion] ? 'Show less' : 'Show more'}
+                </button>
+              )}
+            </div>
+          ))}
+        </>
+      }
+
     </div>
   );
 }
