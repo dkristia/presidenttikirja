@@ -46,7 +46,7 @@ function App() {
 
     setRandomPerson1(person1);
     setRandomPerson2(person2);
-    setQuestion(kysymykset[Math.floor(Math.random() * kysymykset.length)]);
+    setQuestion(kysymykset[Math.floor(Math.random() * kysymykset.length)][0]);
   };
 
   const sendToServer = async (data: any) => {
@@ -102,10 +102,7 @@ function App() {
           <h2>Stats</h2>
           {Object.keys(elo).map((statQuestion) => (
             <div className='statlist'>
-              <h1>{(statQuestion === "Kumman nimi on goofympi?") ? "Goofyin nimi" :
-                ((statQuestion === "Kumpi on kaljumpi?") ? "Kaljuin" :
-                  ((statQuestion === "Kumman ilme on enemmän mischievous?") ? "Eniten mischievous naama" :
-                    ((statQuestion === "Kumpi on enemmän nainen?") ? "Eniten nainen" : "Walter White")))}</h1>
+              <h1>{Object.fromEntries(kysymykset)[statQuestion] || 'Keskimääräisesti paras presidentti'}</h1>
               <ul>
                 {Object.keys(elo[statQuestion]).slice(0, expandedBoxes[statQuestion] ? undefined : 3).map((person, index) => (
                   <li className='stat-item' key={`${person.replace(' ', '-')}-${index}`}>

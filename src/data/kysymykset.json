@@ -1,7 +1,22 @@
 [
-    "Kumman nimi on goofympi?",
-    "Kumpi on kaljumpi?",
-    "Kumman ilme on enemmän mischievous?",
-    "Kumpi on enemmän nainen?",
-    "Kumpi näyttää enemmän Walter Whiteltä?"
+    [
+        "Kumman nimi on goofympi?",
+        "Eniten goofy nimi"
+    ],
+    [
+        "Kumpi on kaljumpi?",
+        "Kaljuin"
+    ],
+    [
+        "Kumman ilme on enemmän mischievous?",
+        "Eniten mischievous ilme"
+    ],
+    [
+        "Kumpi on enemmän nainen?",
+        "Eniten nainen"
+    ],
+    [
+        "Kumpi näyttää enemmän Walter Whiteltä?",
+        "Walter White"
+    ]
 ]
