@@ -26,7 +26,7 @@ function App() {
   const [randomPerson1, setRandomPerson1] = useState<Person | null>(null);
   const [randomPerson2, setRandomPerson2] = useState<Person | null>(null);
   const [question, setQuestion] = useState('');
-  const [elo, setElo] = useState<EloType>({ "Question": { "Person One": 6969, "Person Two": 6969 } });
+  const [elo, setElo] = useState<EloType>({ "Jotain meni pieleen": { "Servu vrm pois päältä": 6969, "Tai joku muu tuubakoodi": 6969 } });
   const [isMain, setIsMain] = useState(true);
 
 
@@ -51,7 +51,7 @@ function App() {
 
   const sendToServer = async (data: any) => {
     try {
-      const response = await fetch('https://9dde-193-211-37-15.ngrok-free.app/receive-data', {
+      const response = await fetch('https://21f7-193-211-37-15.ngrok-free.app/receive-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
