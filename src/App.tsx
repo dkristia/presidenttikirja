@@ -28,6 +28,7 @@ function App() {
   const [question, setQuestion] = useState('');
   const [elo, setElo] = useState<EloType>({ "Jotain meni pieleen": { "Servu vrm pois päältä": 6969, "Tai joku muu tuubakoodi": 6969 } });
   const [isMain, setIsMain] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
 
 
   useEffect(() => {
@@ -75,6 +76,11 @@ function App() {
   const choosePerson = (is1: boolean) => {
     sendToServer({ 'winner': is1 ? randomPerson1?.name : randomPerson2?.name, 'loser': is1 ? randomPerson2?.name : randomPerson1?.name, 'question': question });
     getRandomPerson();
+
+    setIsDisabled(true);
+    setTimeout(() => {
+      setIsDisabled(false);
+    }, 3 * 1000);
   }
 
   return (
@@ -86,11 +92,11 @@ function App() {
           <h2>{question}</h2>
           <h3>Valitse parempi ehdokas tähän kriteeriin</h3>
           <div className='pair-container'>
-            <button className='person' onClick={() => choosePerson(true)}>
+            <button disabled={isDisabled} className='person' onClick={() => choosePerson(true)}>
               <h2>{randomPerson1?.name}</h2>
               <img src={'./images/' + randomPerson1?.image} alt={randomPerson1?.name} />
             </button>
-            <button className='person' onClick={() => choosePerson(false)}>
+            <button disabled={isDisabled} className='person' onClick={() => choosePerson(false)}>
               <h2>{randomPerson2?.name}</h2>
               <img src={'./images/' + randomPerson2?.image} alt={randomPerson2?.name} />
             </button>
