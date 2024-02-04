@@ -52,7 +52,7 @@ function App() {
 
   const sendToServer = async (data: any) => {
     try {
-      const response = await fetch('https://21f7-193-211-37-15.ngrok-free.app/receive-data', {
+      const response = await fetch('https://d9df-193-211-37-15.ngrok-free.app/receive-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
