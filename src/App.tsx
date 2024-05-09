@@ -52,7 +52,7 @@ function App() {
 
   const sendToServer = async (data: any) => {
     try {
-      const response = await fetch('https://d9df-193-211-37-15.ngrok-free.app/receive-data', {
+      const response = await fetch('https://presidenttikirja.dasuki.tech/backend/receive-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,8 +65,12 @@ function App() {
       }
 
       const json = await response.json();
-      const gotElo = json.elo;
-      setElo(gotElo);
+      const gotElo: EloType = json.elo;
+      let sortedEloList: EloType = {}
+      for (const statQuestion of Object.keys(gotElo)) {
+        sortedEloList[statQuestion] = Object.fromEntries(Object.entries(gotElo[statQuestion]).sort(([, a], [, b]) => b - a));
+      }
+      setElo(sortedEloList);
 
     } catch (error) {
       console.error('Error:', error);
