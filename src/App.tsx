@@ -52,7 +52,7 @@ function App() {
 
   const sendToServer = async (data: any) => {
     try {
-      const response = await fetch('https://presidenttikirja.dasuki.tech/backend/receive-data', {
+      const response = await fetch('backend/receive-data/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
